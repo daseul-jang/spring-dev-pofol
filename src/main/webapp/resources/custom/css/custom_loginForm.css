@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: "NanumSquareOTF_acEB";
+	src: url("/resources/font/NanumSquareOTF_acEB.otf") format("opentype");
+}
+
+ul.list-social>li {
+	padding-bottom: 5px;
+}
+
+.btn-login {
+	background-color: #7293b4;
+	color: #fff;
+}
+
+.login-a {
+	text-decoration: none;
+	color: #627388;
+}
+
+.login-a:hover {
+	color: #4a85a8;
+}
+
+.login-bottom {
+	list-style: none;
+	display: flex;
+	justify-content: space-between;
+	padding-top: 5px;
+	padding-left: 0px;
+}
+
+.font-white {
+	color: #fff;
+}
+
+.naver-logo {
+	font-family: NanumSquareOTF_acEB;
+	/* font-size: 19px; */
+	font-weight: 900;
+}
+
+.google-logo {
+	background-color: #DC4B29;
+}
+
+.facebook-logo {
+	background-color: #415DAE;
+}
+
+.twitter-logo {
+	background-color: #1DA1F2;
+}
+
+.twitter-logo>i {
+	color: #fff;
+}

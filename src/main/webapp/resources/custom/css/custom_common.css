@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+body {
+	background-color: rgb(194, 202, 211) !important;
+}
+
+section {
+	margin-top: 64px;
+}
+
+.card {
+	width: 202px;
+	height: 400px;
+	cursor: pointer;
+}
+	
+.card-img-top {
+	width: 200px;
+	height: 200px;
+}

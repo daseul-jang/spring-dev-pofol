@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jds.web.mapper.PortfolioMapper">
+
+	<!-- 포트폴리오 업로드 -->
+	<insert id="insertPortfolio">
+		insert into portfolio(p_no, m_id, p_title, p_content, p_startDate, p_endDate, p_devSetting, p_stack, p_thumbnail, p_video, p_link)
+		values (pofol_seq.nextval, #{m_id}, #{p_title}, #{p_content}, to_date(#{p_startDate}, 'yyyy-mm-dd'), to_date(#{p_endDate}, 'yyyy-mm-dd'), #{p_devSetting}, #{p_stack}, #{p_thumbnail}, #{p_video}, #{p_link})
+	</insert>
+	
+	<!-- 스킬 검색 -->
+	<select id="selectStackByStackName" parameterType="String" resultType="StackDTO">
+		select *
+		from stack
+		where upper(s_name) like upper('%'||#{searchValue}||'%') or lower(s_name) like lower('%'||#{searchValue}||'%')
+	</select>
+	
+	<!-- 메인 포트폴리오 리스트 -->
+	<!-- 최신순 -->
+	<select id="newMainList" resultType="PofolDTO">
+	<![CDATA[
+		select *
+		from (
+			select p.*, m.m_nick
+			from portfolio p, members m
+			where p.m_id = m.m_id
+			order by p.p_regDate desc
+		)
+		where rownum <= 5
+	]]>
+	</select>
+	
+	<!-- 인기순 -->
+	<select id="bestMainList" resultType="PofolDTO">
+	<![CDATA[
+		select *
+		from (
+			select p.*, m.m_nick
+			from portfolio p, members m
+			where p.m_id = m.m_id
+			order by p.p_recomm desc
+		)
+		where rownum <= 5
+	]]>
+	</select>
+	
+	<!-- 포트폴리오 리스트 -->
+	<select id="getPofolListCnt" parameterType="hashmap" resultType="int">
+		select count(*) 
+		from (
+			select p.*, m.m_nick
+			from portfolio p, members m
+			where p.m_id = m.m_id
+		)
+		<include refid="pofolSearch"></include>
+	</select>
+	
+	<select id="portfolioList" parameterType="hashmap" resultType="PofolDTO">
+		select *
+		from (
+				select rownum rnum, A.*
+				from (
+						select p.*, m.m_nick
+						from portfolio p, members m
+						where p.m_id = m.m_id
+						<include refid="pofolSort"></include>
+				) A
+				<include refid="pofolSearch"></include>
+		)
+		where rnum between #{pageObject.startRow} and #{pageObject.endRow}
+	</select>
+	
+	<select id="myPofolList" parameterType="hashmap" resultType="PofolDTO">
+		select *
+		from (
+				select rownum rnum, A.*
+				from (
+						select *
+						from (
+								select p.*, m.m_nick
+								from portfolio p, members m
+								where p.m_id = m.m_id
+						)
+						where m_id = #{pofolDTO.m_id}
+						order by p_regDate desc
+				) A
+		)
+		where rnum between #{pageObject.startRow} and #{pageObject.endRow}
+	</select>
+	
+	<!-- 정렬(최신순/인기순) -->
+	<sql id="pofolSort">
+		<if test="sort == 'new'.toString()">
+			order by p_regDate desc
+		</if>
+		<if test="sort == 'best'.toString()">
+			order by p_recomm desc
+		</if>
+	</sql>
+	
+	<sql id="pofolSearch">
+		<if test="pageObject.word != null and pageObject.word !=''.toString()">
+			where upper(p_title) like upper('%'||#{pageObject.word}||'%') or lower(p_title) like lower('%'||#{pageObject.word}||'%')
+			or upper(p_content) like upper('%'||#{pageObject.word}||'%') or lower(p_content) like lower('%'||#{pageObject.word}||'%')
+			or upper(m_nick) like upper('%'||#{pageObject.word}||'%') or lower(m_nick) like lower('%'||#{pageObject.word}||'%')
+		</if>
+	</sql>
+	
+	<!-- 포트폴리오 내용 보기 -->
+	<select id="pofolView" resultType="PofolDTO">
+		select p.*, m.m_nick
+		from portfolio p, members m
+		where p.m_id = m.m_id and p.p_no = #{p_no}
+	</select>
+</mapper>

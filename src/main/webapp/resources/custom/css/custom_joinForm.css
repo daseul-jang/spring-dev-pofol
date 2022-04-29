@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+.join-box-sort {
+	display: flex;
+	justify-content: center;
+}
+
+.join-box {
+	background-color: #fff;
+	border-radius: 10px;
+	width: 570px;
+	height: 80%;
+}
+
+.join-title {
+	display: flex;
+	justify-content: center;
+	border-bottom: 1px solid #D5D5D5;
+}
+
+.form-group-box {
+	padding: 10px 10px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.input-box {
+	margin-bottom: 3rem;
+}

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jds.web.mapper.MemberMapper">
+
+	<!-- DB 연결 확인용 현재시각을 출력하는 쿼리 -->
+	<select id="getTime" resultType="String">
+		select sysdate from dual
+	</select>
+
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="MemberDTO">
+		insert into members(m_id, m_pw, m_name, m_nick, m_email, m_scrEnabled)
+		values (#{m_id}, #{m_pw}, #{m_name}, #{m_nick}, #{m_email}, 1)
+	</insert>
+	
+	<!-- 단일 회원 정보 조회 -->
+	<select id="selectMemberById" resultType="MemberDTO">
+		select * from members where m_id = #{m_id}
+	</select>
+	
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" resultType="int">
+		select count(*) from members where m_id = #{m_id}
+	</select>
+	
+	<!-- 닉네임 중복체크 -->
+	<select id="nickCheck" resultType="int">
+		select count(*) from members where m_nick = #{m_nick}
+	</select>
+	
+	<!-- 이메일 중복체크 -->
+	<select id="emailCheck" resultType="int">
+		select count(*) from members where m_email = #{m_email}
+	</select>
+	
+	<!-- 이메일 인증키 update -->
+	<update id="updateAuthKey" parameterType="MemberDTO">
+		update members
+		set m_authKey = #{m_authKey}
+		where m_id = #{m_id}
+	</update>
+	
+	<!-- 이메일 인증키 일치여부 select -->
+	<select id="selectAuthKeyCheck" parameterType="MemberDTO" resultType="MemberDTO">
+		select m_id
+		from members
+		where m_id = #{m_id} and m_authKey = #{m_authKey}
+	</select>
+	
+	<!-- 이메일 인증 상태 N->Y -->
+	<update id="updateAuthStatus" parameterType="MemberDTO">
+		update members
+		set m_mailAuth = 'Y', m_scrRole = 'ROLE_USER'
+		where m_id = #{m_id}
+	</update>
+	
+	<!-- 로그인 관련 -->
+	<!-- 로그인 시 이메일 인증 여부 체크 -->
+	<select id="loginEmailAuthChk" resultType="String">
+		select m_mailAuth
+		from members
+		where m_id = #{m_id}
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="selectFindId" parameterType="MemberFindDTO" resultType="String">
+		select m_id
+		from members
+		where m_name = #{m_name} and m_email = #{m_email}
+	</select>
+	
+	<!-- 이메일 select -->
+	<select id="selectEmail" resultType="String">
+		select m_email
+		from members
+		where m_id = #{m_id}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="selectFindPw" resultType="MemberFindDTO">
+		select m_id, m_pw, m_name, m_email
+		from members
+		where m_name = #{m_name} and m_id = #{m_id} and m_email = #{m_email}
+	</select>
+	
+	<update id="updateMemberPw" parameterType="MemberFindDTO">
+		update members set m_pw = #{m_pw} where m_id = #{m_id}
+	</update>
+	
+	<select id="selectCntByName" resultType="int">
+		select count(*)
+		from members
+		where m_name = #{m_name}
+	</select>
+	
+	<select id="selectCntByEmail" resultType="int">
+		select count(*)
+		from members
+		where m_email = #{m_email}
+	</select>
+	
+	<select id="selectCntByNameEmail" resultType="int">
+		select count(*)
+		from members
+		where m_name = #{m_name} and m_email = #{m_email}
+	</select>
+	
+	<select id="selectCntByIdNameEmail" resultType="int">
+		select count(*)
+		from members
+		where m_id = #{m_id} and m_name = #{m_name} and m_email = #{m_email}
+	</select>
+	
+	<!-- 마이페이지 비밀번호 확인 -->
+	<select id="selectPwById" resultType="String">
+		select m_pw from members where m_id = #{m_id}
+	</select>
+
+</mapper>

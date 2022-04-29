@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+.tab-content {
+	height: 500px;
+	background-color: #fff;
+	border: 1px solid transparent;
+   	border-color: #fff #dee2e6 #dee2e6;
+   	border-bottom-left-radius: .25rem;
+   	border-bottom-right-radius: .25rem;
+}
+
+.br-t {
+	border-top-left-radius: .25rem;
+	border-top-right-radius: .25rem;
+}
+
+#findMenu>li>a {
+	color: #fff;
+}
+
+#findMenu>li>a.active {
+	color: #495057;
+}
+
+.nav-tabs .nav-link {
+	background-color: #496180;
+}
+	
+.row-findUserInfo {
+	height: 500px;
+	margin-left: 1rem !important;
+	margin-right: 1rem !important;
+}
+	
+.border-radius {
+	border: 1px solid #dee2e6;
+	border-radius: .25rem;
+}
+	
+.span-advice {
+	font-size: 0.8em;
+	color: #8F96B1;
+}
+	
+@media (min-width: 1200px) {
+	.con-findUserInfo {
+		max-width: 720px !important;
+	}
+}
+	
+@media (min-width: 992px) {
+	.con-findUserInfo {
+		max-width: 720px !important;
+	}
+}

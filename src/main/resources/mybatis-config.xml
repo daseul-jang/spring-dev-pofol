@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+
+	<!-- 사용하려는 DTO에 대한 별칭(축약이름) 부여 -->
+	<typeAliases>
+		<typeAlias alias="MemberDTO" type="com.jds.web.member.domain.MemberDTO"/>
+		<typeAlias alias="PofolDTO" type="com.jds.web.portfolio.domain.PortfolioDTO"/>
+		<typeAlias alias="StackDTO" type="com.jds.web.portfolio.domain.StackDTO"/>
+		<typeAlias alias="CustomUserDetails" type="com.jds.web.security.dto.CustomUserDetails"/>
+		<typeAlias alias="MemberFindDTO" type="com.jds.web.member.domain.MemberFindDTO"/>
+		<!-- <package name="com.jds.web.member.domain"/>
+		<package name="com.jds.web.security.dto"/> -->
+	</typeAliases>
+	
+	<!-- 사용할 매퍼 등록 -->
+	<!-- <mappers>
+		<mapper resource="classpath:com/jds/web/mapper/MemberMapper.xml" />
+	</mappers> -->
+
+</configuration>
